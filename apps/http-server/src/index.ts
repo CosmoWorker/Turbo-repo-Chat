@@ -108,12 +108,41 @@ app.post("/room", auth, async(req:CustomRequest, res) => {
 })
 
 app.get("/chats/:roomId", auth, async(req, res)=>{
-    
-})
+    try{
+        const roomId=Number(req.params.roomId);
+        const messages=await prismaClient.chat.findMany({
+            where:{
+                roomId: roomId
+            },
+            orderBy:{
+                id: "desc"
+            },
+            take:50
+        })
+        res.json({
+            messages: messages
+        })
+    }catch(e){
+        res.status(411).json({
+            message:[]
+        })
+    }
+})  
 
 app.get("/room/:slug", auth, async(req, res)=>{
-
+    const slug=req.params.slug;
+    try{
+        const room=await prismaClient.findFirst({
+            where: {slug}
+        });
+        res.json({
+            message: room
+        })
+    }catch(e){
+        res.status(411).json({
+            message: "Error getting slug"
+        })
+    }
 })
-
 
 app.listen(3001);
