@@ -145,4 +145,4 @@ app.get("/room/:slug", auth, async(req, res)=>{
     }
 })
 
-app.listen(3001);
+app.listen(config.HTTP_PORT);
