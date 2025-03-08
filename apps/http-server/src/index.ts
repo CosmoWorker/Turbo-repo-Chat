@@ -1,3 +1,11 @@
+console.log("Hello index starts")
+import dotenv from "dotenv";
+import path from "path";
+console.log("current dirname: ", __dirname);
+console.log("current working directory: ", process.cwd());
+dotenv.config({path: path.resolve(process.cwd(), "../.env")})
+console.log("variables", process.env.WS_PORT, process.env.HTTP_PORT);
+
 import {config} from "@repo/backend-common/config"
 import argon2 from "argon2";
 import express from "express";
@@ -13,7 +21,7 @@ app.get("/signup", async(req, res) => {
     const parsedData=CreateUserSchema.safeParse(req.body);
     if(!parsedData.success){
         res.json({
-            message: "Incorred Inputs"
+            message: "Incorrect Inputs"
         })
         return;
     }
@@ -144,5 +152,5 @@ app.get("/room/:slug", auth, async(req, res)=>{
         })
     }
 })
-
+console.log(process.env.HTTP_PORT)
 app.listen(config.HTTP_PORT);
