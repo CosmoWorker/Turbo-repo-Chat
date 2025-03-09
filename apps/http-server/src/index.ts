@@ -1,11 +1,11 @@
-console.log("Hello index starts")
 import dotenv from "dotenv";
 import path from "path";
-console.log("current dirname: ", __dirname);
-console.log("current working directory: ", process.cwd());
-dotenv.config({path: path.resolve(process.cwd(), "../.env")})
-console.log("variables", process.env.WS_PORT, process.env.HTTP_PORT);
-
+// console.log("current dirname: ", __dirname);
+// console.log("current working directory: ", process.cwd());
+// dotenv.config({path: path.resolve(process.cwd(), "../.env")})
+// console.log("variables", process.env.WS_PORT, process.env.HTTP_PORT);
+dotenv.config();
+console.log("variables: ", process.env.WS_PORT, process.env.SECRET_KEY);
 import {config} from "@repo/backend-common/config"
 import argon2 from "argon2";
 import express from "express";
@@ -152,5 +152,4 @@ app.get("/room/:slug", auth, async(req, res)=>{
         })
     }
 })
-console.log(process.env.HTTP_PORT)
 app.listen(config.HTTP_PORT);
