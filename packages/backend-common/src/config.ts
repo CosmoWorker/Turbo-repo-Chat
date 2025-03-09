@@ -1,3 +1,4 @@
+require("dotenv").config();
 type Config={
     WS_PORT: number,
     HTTP_PORT: number,
