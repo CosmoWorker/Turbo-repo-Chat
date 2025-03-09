@@ -7,8 +7,8 @@ import path from "path";
 dotenv.config();
 console.log("variables: ", process.env.WS_PORT, process.env.SECRET_KEY);
 import {config} from "@repo/backend-common/config"
-import argon2 from "argon2";
 import express from "express";
+import bcrypt from "bcryptjs"
 import {prismaClient} from "@repo/db/client"
 import {CreateUserSchema, SigninSchema, CreateRoomSchema} from "@repo/common/types"
 import { CustomRequest, auth } from "./auth";
@@ -26,7 +26,7 @@ app.get("/signup", async(req, res) => {
         return;
     }
     try{
-        const hashedPassword=await argon2.hash(parsedData.data.password);
+        const hashedPassword=await bcrypt.hash(parsedData.data.password, 5);
         const user=await prismaClient.user.create({
             data:{
                 email: parsedData.data.username,
@@ -63,7 +63,7 @@ app.get("/signin", async(req, res) => {
                 message: "User not found, invalid"
             })
         }
-        const isValidPassword=await argon2.verify(user.password, parsedData.data.password);
+        const isValidPassword=await bcrypt.compare(parsedData.data.password,user.password);
         if(isValidPassword){
             const token=jwt.sign({
                 userId: user.id
