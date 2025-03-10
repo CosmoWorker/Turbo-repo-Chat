@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();  
 import {WebSocket, WebSocketServer} from 'ws';
 import jwt from "jsonwebtoken"
 import {config} from "@repo/backend-common/config"
@@ -62,11 +64,12 @@ wss.on('connection', function connection(ws, req){
             const message=parsedData.message;
             await prismaClient.chat.create({
                 data:{
-                    roomId,
+                    roomId: Number(roomId),
                     message,
                     userId
                 }
             });
+            console.log("Inserted into the database");
             users.forEach(user=>{
                 if(user.rooms.includes(roomId)){
                     user.ws.send(JSON.stringify({

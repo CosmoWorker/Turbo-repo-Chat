@@ -5,7 +5,6 @@ import path from "path";
 // dotenv.config({path: path.resolve(process.cwd(), "../.env")})
 // console.log("variables", process.env.WS_PORT, process.env.HTTP_PORT);
 dotenv.config();
-console.log("variables: ", process.env.WS_PORT, process.env.SECRET_KEY);
 import {config} from "@repo/backend-common/config"
 import express from "express";
 import bcrypt from "bcryptjs"
@@ -15,9 +14,9 @@ import { CustomRequest, auth } from "./auth";
 import jwt from "jsonwebtoken";
 
 const app = express();
-app.use(express.json())
+app.use(express.json());
 
-app.get("/signup", async(req, res) => {
+app.post("/signup", async(req, res) => {
     const parsedData=CreateUserSchema.safeParse(req.body);
     if(!parsedData.success){
         res.json({
@@ -44,7 +43,7 @@ app.get("/signup", async(req, res) => {
     }
 })
 
-app.get("/signin", async(req, res) => {
+app.post("/signin", async(req, res) => {
     const parsedData=SigninSchema.safeParse(req.body);
     if(!parsedData.success){
         res.json({
@@ -61,9 +60,10 @@ app.get("/signin", async(req, res) => {
         if(!user){
             res.status(401).json({
                 message: "User not found, invalid"
-            })
+            });
+            return;
         }
-        const isValidPassword=await bcrypt.compare(parsedData.data.password,user.password);
+        const isValidPassword=await bcrypt.compare(parsedData.data.password, user.password);
         if(isValidPassword){
             const token=jwt.sign({
                 userId: user.id
@@ -140,7 +140,7 @@ app.get("/chats/:roomId", auth, async(req, res)=>{
 app.get("/room/:slug", auth, async(req, res)=>{
     const slug=req.params.slug;
     try{
-        const room=await prismaClient.findFirst({
+        const room=await prismaClient.room.findFirst({
             where: {slug}
         });
         res.json({

@@ -1,11 +1,11 @@
-require("dotenv").config();
+import dotenv from "dotenv";
+dotenv.config();
 type Config={
     WS_PORT: number,
     HTTP_PORT: number,
     SECRET_KEY: string
 }
 
-console.log("env vairable: ", process.env.HTTP_PORT);
 if(!process.env.WS_PORT || !process.env.HTTP_PORT || !process.env.SECRET_KEY){
     throw new Error("Environment variables might be empty")
 }

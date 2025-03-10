@@ -97,6 +97,9 @@ importers:
       '@types/ws':
         specifier: ^8.5.13
         version: 8.5.13
+      dotenv:
+        specifier: ^16.4.7
+        version: 16.4.7
       esbuild:
         specifier: ^0.25.0
         version: 0.25.0
