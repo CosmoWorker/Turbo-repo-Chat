@@ -3,6 +3,10 @@ import { TextInput } from "@repo/ui/text-input";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+/**
+ * Got to add auth for signup and sign in
+ */
+
 export default function Home() {
   const [roomId, setRoomId]=useState("");
   const router = useRouter();
