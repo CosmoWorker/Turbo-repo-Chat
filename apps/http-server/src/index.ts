@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import path from "path";
+// import path from "path";
 // console.log("current dirname: ", __dirname);
 // console.log("current working directory: ", process.cwd());
 // dotenv.config({path: path.resolve(process.cwd(), "../.env")})
