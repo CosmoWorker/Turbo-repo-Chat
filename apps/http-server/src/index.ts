@@ -144,7 +144,7 @@ app.get("/room/:slug", auth, async(req, res)=>{
             where: {slug}
         });
         res.json({
-            message: room
+            room: room
         })
     }catch(e){
         res.status(411).json({
